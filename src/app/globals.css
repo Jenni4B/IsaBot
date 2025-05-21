@@ -4,10 +4,23 @@ html, body, #root {
   height: 100%;
 }
 
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-navy: #202B38;
+  --color-maroon: #851C3C;
+  --color-blush: #F1E8E2;
+  --color-taupe: #D9C3B9;
+  --color-white: #F7F7F7;
+  --color-accent: #D0355B;
 }
+
+@theme {
+  --background: var(--color-navy);
+  --foreground: var(--color-blush);
+  --font-geist-sans: "Inter", sans-serif;
+  --font-geist-mono: "Fira Code", monospace;
+}
+
 
 @theme inline {
   --color-background: var(--background);
@@ -16,12 +29,12 @@ html, body, #root {
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 body {
   background: var(--background);
