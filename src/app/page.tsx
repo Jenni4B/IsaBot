@@ -4,7 +4,6 @@ import NavBar from "./components/navbar";
 
 export default function Home() {
   return (
-
       // Layout summary:
       // - Centers content
       // - Ensures minimum height fills the viewport

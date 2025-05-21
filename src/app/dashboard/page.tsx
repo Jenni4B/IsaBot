@@ -1,4 +1,5 @@
 import React from 'react';
+import NavBar from '../components/navbar';
 
 type ClientStatus = 'Active' | 'Due' | 'Overdue';
 
@@ -29,7 +30,8 @@ const getStatusColor = (status: ClientStatus): string => {
 
 const Dashboard: React.FC = () => {
   return (
-    <div className="bg-gray-900 text-white font-sans min-h-screen py-8 px-4">
+    <div className="text-white font-sans min-h-screen py-8 px-4">
+        <NavBar />
       <div className="max-w-4xl mx-auto">
         <div className="overflow-x-auto">
           <table>
@@ -68,7 +70,8 @@ const Dashboard: React.FC = () => {
         </div>
 
         <div className="mt-6">
-          <button className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+          <button className="text-white py-2 px-4 rounded hover:opacity-90"
+                  style={{ backgroundColor: "var(--color-accent, #D0355B)" }}>
             Add New Client
           </button>
         </div>
