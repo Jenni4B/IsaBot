@@ -10,8 +10,7 @@ export default function Home() {
       // - Adds responsive padding (larger on small screens and up)
       // - Adds extra bottom padding and gap between children
       // - Uses a custom font family
-    <div className="items-center justify-items-center min-h-screen 
-                    p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="flex flex-col min-h-screen">
       <NavBar />
       <LandingPage />
       <footer className="text-center">

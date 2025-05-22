@@ -2,6 +2,8 @@ import Link from "next/link";
 
 const navItems = [
     { name: "Home", href: "/" },
+    { name: "Dashboard", href: "/dashboard" },
+    // { name: "Settings", href: "/settings" }, Not implemented yet
     ];
 
 
