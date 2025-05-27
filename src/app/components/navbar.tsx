@@ -10,7 +10,7 @@ const navItems = [
 
 const NavBar: React.FC = () => {
     return (
-        <nav className="text-white p-4">
+        <nav className="text-white p-4 shadow-md">
             <div className="container mx-auto flex justify-between items-center">
                 <div className="text-lg font-bold">IsaBot</div>
                 <ul className="flex space-x-4">
