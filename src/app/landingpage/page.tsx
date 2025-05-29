@@ -14,7 +14,7 @@ const LandingPage = () => {
                     className="text-white py-2 px-4 rounded hover:opacity-90 font-sans"
                     style={{ backgroundColor: "var(--color-accent, #D0355B)" }}
                     onClick={() => {
-                        window.location.href = "/dashboard";
+                        window.location.href = "/loginPage";
                     }}
                 >
                     View Clients
