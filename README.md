@@ -35,7 +35,7 @@ IsaBot is a web application that provides a clean, modern interface for managing
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/Jenni4B/IsaBot.git
 cd isabot
 ```
 
