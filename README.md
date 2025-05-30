@@ -149,7 +149,3 @@ The application uses Tailwind CSS with custom CSS variables. Modify `globals.css
 ## License
 
 This project is private to Isa Media Inc and Jennifer Blocker from Launchpad Philly.
-
----
-
-© 2024 Isa Media Inc. All rights reserved.
