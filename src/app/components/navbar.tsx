@@ -11,10 +11,10 @@ const navItems = [
 
 const NavBar: React.FC = () => {
     return (
-        <nav className="text-white p-4 shadow-md">
+        <nav className="text-white p-6 shadow-lg text-xl">
             <div className="container mx-auto flex justify-between items-center">
-                <div className="text-lg font-bold">IsaBot</div>
-                <ul className="flex space-x-4">
+                <div className="text-2xl font-bold">IsaBot</div>
+                <ul className="flex space-x-8">
                     {navItems.map((item) => (
                         <li key={item.name}>
                             <Link href={item.href} className="hover:text-gray-400">
