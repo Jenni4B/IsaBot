@@ -19,24 +19,46 @@ const loginpage = () => {
         console.log("Login form submitted");
         console.log("Username:", username);
         console.log("Password:", password);
-        // Here I will handle the login logic, and make sure you are authenticated
-        // For now, we will just redirect to the dashboard
+        window.location.href = "/dashboard"; // Redirect to dashboard after login
     }
     
     return(
         <div className="flex flex-col min-h-screen">
             <NavBar />
-                <form onSubmit={handleLogin}>
+            <div className="flex flex-1 items-center justify-center">
+                <form 
+                    onSubmit={handleLogin}
+                    className="p-8 rounded shadow-md w-full max-w-sm space-y-6"
+                >
                     <div>
-                        <label htmlFor="username">Username:</label>
-                        <input type="text" id="username" name="username" required />
+                        <label htmlFor="username" className="block mb-2 text-sm font-medium text-white">Username:</label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            required 
+                            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
                     </div>
                     <div>
-                        <label htmlFor="password">Password:</label>
-                        <input type="password" id="password" name="password" required />
+                        <label htmlFor="password" className="block mb-2 text-sm font-medium text-white">Password:</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required 
+                            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
                     </div>
-                    <button type="submit">Login</button>
+                    <button 
+                        type="submit"
+                        style={{ backgroundColor: "var(--color-accent, #D0355B)" }}
+                        className="w-full text-white py-2 rounded hover:bg-blue-700 transition"
+                    >
+                        Login
+                    </button>
                 </form>
+            </div>
         </div>           
     )
 

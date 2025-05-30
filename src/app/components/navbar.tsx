@@ -2,12 +2,12 @@ import Link from "next/link";
 
 const navItems = [
     { name: "Home", href: "/" },
-    { name: "Dashboard", href: "/dashboard" },
+    // { name: "Dashboard", href: "/dashboard" },
     { name: "Login", href: "/loginPage" },
     // { name: "Settings", href: "/settings" }, Not implemented yet
     ];
 
-
+// {name: "Logout", href: "/" }, will be implemented later
 
 const NavBar: React.FC = () => {
     return (
