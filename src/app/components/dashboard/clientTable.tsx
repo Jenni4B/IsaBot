@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { fetchSummary } from '@/app/hooks/fetchSummary';
 
 type ClientStatus = 'Active' | 'Due' | 'Overdue';
 
@@ -10,6 +11,7 @@ interface Client {
   status: ClientStatus;
   aiSummary?: string;
   note?: string;
+  checkIns?: string[];
 }
 
 
@@ -31,31 +33,19 @@ const clientsData: Client[] = [
     name: 'Emily Carter',
     lastCheckIn: 'June 3',
     status: 'Active',
-    aiSummary: 'Emily is consistently checking in and showing confidence in her workflow.',
-  },
-  {
-    name: 'D. Nguyen',
-    lastCheckIn: 'May 28',
-    status: 'Due',
-    aiSummary: 'D. Nguyen is quieter than usual and may need a check-in message.',
+    checkIns: [
+      "I'm staying consistent this week — finished scripting early.",
+      "Feeling confident about my next recording!"
+    ]
   },
   {
     name: 'Marcus Liu',
     lastCheckIn: 'May 20',
     status: 'Overdue',
-    aiSummary: 'Marcus has not submitted a check-in in over two weeks. Recommend re-engagement.',
-  },
-  {
-    name: 'Priya Patel',
-    lastCheckIn: 'June 1',
-    status: 'Active',
-    aiSummary: 'Priya is on track with content planning and seems more confident.',
-  },
-  {
-    name: 'Carlos Ramos',
-    lastCheckIn: 'May 25',
-    status: 'Due',
-    aiSummary: 'Carlos missed his last check-in and mentioned scheduling issues previously.',
+    checkIns: [
+      "I missed my session again — things are chaotic.",
+      "Still behind but trying to get back into it."
+    ]
   }
 ];
 
@@ -88,6 +78,8 @@ const ClientTable: React.FC = () => {
     setNote(clients[index].note || '');
     setOpenIndex(index);
   };
+
+  fetchSummary()
 
   return (
     <div className="bg-gray-800 text-white p-6 rounded-lg shadow-md max-w-5xl mx-auto">
@@ -155,7 +147,18 @@ const ClientTable: React.FC = () => {
             </p>
             <div className="mb-3">
               <strong>AI Summary:</strong>
-              <p className="mt-1 text-sm text-gray-300">{clients[openIndex].aiSummary}</p>
+                <button
+                  onClick={async () => {
+                    const updated = [...clients];
+                    const checkIns = updated[openIndex].checkIns || [];
+                    const aiSummary = await fetchSummary(checkIns);
+                    updated[openIndex].aiSummary = aiSummary;
+                    setClients(updated);
+                  }}
+                  className="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded"
+                >
+                  Generate Summary
+                </button>
             </div>
 
             <div className="mb-4">
