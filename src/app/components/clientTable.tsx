@@ -12,6 +12,7 @@ interface Client {
   note?: string;
 }
 
+
 const getStatusColor = (status: ClientStatus): string => {
   switch (status) {
     case 'Active':
