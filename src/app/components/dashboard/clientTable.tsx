@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { fetchSummary } from '@/app/hooks/fetchSummary';
+import summaryhandler from '@/app/api/summary';
 
 type ClientStatus = 'Active' | 'Due' | 'Overdue';
 
@@ -148,13 +149,7 @@ const ClientTable: React.FC = () => {
             <div className="mb-3">
               <strong>AI Summary:</strong>
                 <button
-                  onClick={async () => {
-                    const updated = [...clients];
-                    const checkIns = updated[openIndex].checkIns || [];
-                    const aiSummary = await fetchSummary(checkIns);
-                    updated[openIndex].aiSummary = aiSummary;
-                    setClients(updated);
-                  }}
+                  onClick={() => fetchSummary(clients[openIndex].checkIns || [])}
                   className="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded"
                 >
                   Generate Summary
