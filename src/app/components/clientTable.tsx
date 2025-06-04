@@ -1,14 +1,17 @@
 'use client';
 
-import React, { useState } from "react"
+import React, { useState } from 'react';
 
 type ClientStatus = 'Active' | 'Due' | 'Overdue';
+
 interface Client {
   name: string;
   lastCheckIn: string;
   status: ClientStatus;
   aiSummary?: string;
+  note?: string;
 }
+
 const getStatusColor = (status: ClientStatus): string => {
   switch (status) {
     case 'Active':
@@ -23,95 +26,161 @@ const getStatusColor = (status: ClientStatus): string => {
 };
 
 const clientsData: Client[] = [
-  { name: 'Jane Doe', lastCheckIn: 'May 17', status: 'Active', aiSummary: 'Jane is doing great! She has been very active in her sessions and is making good progress.' },
-
-  { name: 'John Smith', lastCheckIn: 'May 10', status: 'Due', aiSummary: 'John has been a bit quiet lately. He missed his last session, but we are reaching out to him.' },
-
-  { name: 'A. Grace', lastCheckIn: 'May 2', status: 'Overdue', aiSummary: 'A. Grace has not checked in for a while. We are concerned and will follow up with her.' },
+  {
+    name: 'Emily Carter',
+    lastCheckIn: 'June 3',
+    status: 'Active',
+    aiSummary: 'Emily is consistently checking in and showing confidence in her workflow.',
+  },
+  {
+    name: 'D. Nguyen',
+    lastCheckIn: 'May 28',
+    status: 'Due',
+    aiSummary: 'D. Nguyen is quieter than usual and may need a check-in message.',
+  },
+  {
+    name: 'Marcus Liu',
+    lastCheckIn: 'May 20',
+    status: 'Overdue',
+    aiSummary: 'Marcus has not submitted a check-in in over two weeks. Recommend re-engagement.',
+  },
+  {
+    name: 'Priya Patel',
+    lastCheckIn: 'June 1',
+    status: 'Active',
+    aiSummary: 'Priya is on track with content planning and seems more confident.',
+  },
+  {
+    name: 'Carlos Ramos',
+    lastCheckIn: 'May 25',
+    status: 'Due',
+    aiSummary: 'Carlos missed his last check-in and mentioned scheduling issues previously.',
+  }
 ];
 
 const statusOptions: ClientStatus[] = ['Active', 'Due', 'Overdue'];
 
 const ClientTable: React.FC = () => {
-    const [clients, setClients] = useState<Client[]>(clientsData);
-    const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [clients, setClients] = useState<Client[]>(clientsData);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [note, setNote] = useState<string>('');
 
-    const handleStatusChange = (index: number, newStatus: ClientStatus) => {
-        const updatedClients = [...clients];
-        updatedClients[index] = { ...updatedClients[index], status: newStatus };
-        setClients(updatedClients);
-    };
+  const handleStatusChange = (index: number, newStatus: ClientStatus) => {
+    const updated = [...clients];
+    updated[index].status = newStatus;
+    setClients(updated);
+  };
 
-    return (
-        <div className="bg-gray-800 text-white p-4 rounded-lg shadow-md">
-            <h2 className="text-xl font-bold mb-2">Client List</h2>
-            <table className="w-full">
-                <thead>
-                    <tr className="bg-gray-700">
-                        <th className="p-2">Client Name</th>
-                        <th className="p-2">Last Check-In</th>
-                        <th className="p-2">Status</th>
-                        <th className="p-1">AI Summary</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {clients.map((client, index) => (
-                        <tr className="hover:bg-gray-600" key={index}>
-                            <td className="p-2">{client.name}</td>
-                            <td className="p-2">{client.lastCheckIn}</td>
-                            <td className="p-2">
-                                <select
-                                    className={`bg-gray-700 rounded px-2 py-1 ${getStatusColor(client.status)}`}
-                                    value={client.status}
-                                    onChange={e => handleStatusChange(index, e.target.value as ClientStatus)}
-                                >
-                                    {statusOptions.map(option => (
-                                        <option key={option} value={option}>{option}</option>
-                                    ))}
-                                </select>
-                            </td>
-                            <td className="p-2">
-                                <button
-                                    className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded"
-                                    onClick={() => setOpenIndex(index)}
-                                >
-                                    View
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+  const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setNote(e.target.value);
+  };
 
-            {/* Modal Overlay */}
-            {openIndex !== null && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
-                    <div className="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-lg w-full relative">
-                        <button
-                            className="absolute top-2 right-2 text-gray-300 hover:text-white text-xl"
-                            onClick={() => setOpenIndex(null)}
-                            aria-label="Close"
-                        >
-                            &times;
-                        </button>
-                        <h3 className="text-2xl font-bold mb-4">{clients[openIndex].name}</h3>
-                        <div className="mb-2">
-                            <span className="font-semibold">Last Check-In:</span> {clients[openIndex].lastCheckIn}
-                        </div>
-                        <div className="mb-2">
-                            <span className="font-semibold">Status:</span>{" "}
-                            <span className={getStatusColor(clients[openIndex].status)}>
-                                {clients[openIndex].status}
-                            </span>
-                        </div>
-                        <div className="mb-2">
-                            <span className="font-semibold">AI Summary:</span>
-                            <div className="mt-1">{clients[openIndex].aiSummary}</div>
-                        </div>
-                    </div>
-                </div>
-            )}
+  const handleSaveNote = () => {
+    if (openIndex === null) return;
+    const updated = [...clients];
+    updated[openIndex].note = note;
+    setClients(updated);
+    setOpenIndex(null);
+  };
+
+  const handleOpenModal = (index: number) => {
+    setNote(clients[index].note || '');
+    setOpenIndex(index);
+  };
+
+  return (
+    <div className="bg-gray-800 text-white p-6 rounded-lg shadow-md max-w-5xl mx-auto">
+      <h2 className="text-2xl font-bold mb-4">Client List</h2>
+      <table className="w-full text-sm">
+        <thead className="bg-gray-700">
+          <tr>
+            <th className="p-2 text-left">Client Name</th>
+            <th className="p-2 text-left">Last Check-In</th>
+            <th className="p-2 text-left">Status</th>
+            <th className="p-2 text-left">AI Summary</th>
+          </tr>
+        </thead>
+        <tbody>
+          {clients.map((client, index) => (
+            <tr key={index} className="hover:bg-gray-700 transition">
+              <td className="p-2">{client.name}</td>
+              <td className="p-2">{client.lastCheckIn}</td>
+              <td className="p-2">
+                <select
+                  className={`bg-gray-700 rounded px-2 py-1 ${getStatusColor(client.status)}`}
+                  value={client.status}
+                  onChange={(e) => handleStatusChange(index, e.target.value as ClientStatus)}
+                >
+                  {statusOptions.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+              </td>
+              <td className="p-2">
+                <button
+                  onClick={() => handleOpenModal(index)}
+                  className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded"
+                >
+                  View
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Modal */}
+      {openIndex !== null && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 transition">
+          <div className="bg-gray-900 p-6 rounded-lg shadow-2xl w-full max-w-md relative animate-fade-in">
+            <button
+              onClick={() => setOpenIndex(null)}
+              className="absolute top-2 right-3 text-gray-400 hover:text-white text-xl"
+            >
+              &times;
+            </button>
+
+            <h3 className="text-xl font-semibold mb-2">{clients[openIndex].name}</h3>
+            <p className="mb-1">
+              <strong>Last Check-In:</strong> {clients[openIndex].lastCheckIn}
+            </p>
+            <p className="mb-1">
+              <strong>Status:</strong>{' '}
+              <span className={getStatusColor(clients[openIndex].status)}>
+                {clients[openIndex].status}
+              </span>
+            </p>
+            <div className="mb-3">
+              <strong>AI Summary:</strong>
+              <p className="mt-1 text-sm text-gray-300">{clients[openIndex].aiSummary}</p>
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="note" className="block text-sm font-medium mb-1">
+                Your Notes:
+              </label>
+              <textarea
+                id="note"
+                value={note}
+                onChange={handleNoteChange}
+                className="w-full bg-gray-800 text-white p-2 rounded border border-gray-600"
+                rows={4}
+              />
+            </div>
+
+            <button
+              onClick={handleSaveNote}
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+            >
+              Save Note
+            </button>
+          </div>
         </div>
-    );
-}
+      )}
+    </div>
+  );
+};
+
 export default ClientTable;
