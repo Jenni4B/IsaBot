@@ -22,7 +22,7 @@ const getStatusColor = (status: ClientStatus): string => {
   }
 };
 
-const clients: Client[] = [
+const clientsData: Client[] = [
   { name: 'Jane Doe', lastCheckIn: 'May 17', status: 'Active', aiSummary: 'Jane is doing great! She has been very active in her sessions and is making good progress.' },
 
   { name: 'John Smith', lastCheckIn: 'May 10', status: 'Due', aiSummary: 'John has been a bit quiet lately. He missed his last session, but we are reaching out to him.' },
@@ -30,8 +30,17 @@ const clients: Client[] = [
   { name: 'A. Grace', lastCheckIn: 'May 2', status: 'Overdue', aiSummary: 'A. Grace has not checked in for a while. We are concerned and will follow up with her.' },
 ];
 
+const statusOptions: ClientStatus[] = ['Active', 'Due', 'Overdue'];
+
 const ClientTable: React.FC = () => {
+    const [clients, setClients] = useState<Client[]>(clientsData);
     const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+    const handleStatusChange = (index: number, newStatus: ClientStatus) => {
+        const updatedClients = [...clients];
+        updatedClients[index] = { ...updatedClients[index], status: newStatus };
+        setClients(updatedClients);
+    };
 
     return (
         <div className="bg-gray-800 text-white p-4 rounded-lg shadow-md">
@@ -47,44 +56,61 @@ const ClientTable: React.FC = () => {
                 </thead>
                 <tbody>
                     {clients.map((client, index) => (
-                        <React.Fragment key={index}>
-                            <tr className="hover:bg-gray-600">
-                                <td className="p-2">{client.name}</td>
-                                <td className="p-2">{client.lastCheckIn}</td>
-                                <td className={`p-2 ${getStatusColor(client.status)}`}>
-                                    {client.status}
-                                </td>
-                                <td className="p-2">
-                                    <button
-                                        className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded"
-                                        onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                                    >
-                                        View
-                                    </button>
-                                </td>
-                            </tr>
-                            {openIndex === index && (
-                                <tr>
-                                    <td colSpan={4}>
-                                        <div className="bg-gray-700 rounded p-4 my-2 shadow-lg">
-                                            <div className="flex justify-between items-center mb-2">
-                                                <span className="font-semibold">AI Summary</span>
-                                                <button
-                                                    className="text-gray-300 hover:text-white"
-                                                    onClick={() => setOpenIndex(null)}
-                                                >
-                                                    Close
-                                                </button>
-                                            </div>
-                                            <div>{client.aiSummary}</div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            )}
-                        </React.Fragment>
+                        <tr className="hover:bg-gray-600" key={index}>
+                            <td className="p-2">{client.name}</td>
+                            <td className="p-2">{client.lastCheckIn}</td>
+                            <td className="p-2">
+                                <select
+                                    className={`bg-gray-700 rounded px-2 py-1 ${getStatusColor(client.status)}`}
+                                    value={client.status}
+                                    onChange={e => handleStatusChange(index, e.target.value as ClientStatus)}
+                                >
+                                    {statusOptions.map(option => (
+                                        <option key={option} value={option}>{option}</option>
+                                    ))}
+                                </select>
+                            </td>
+                            <td className="p-2">
+                                <button
+                                    className="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded"
+                                    onClick={() => setOpenIndex(index)}
+                                >
+                                    View
+                                </button>
+                            </td>
+                        </tr>
                     ))}
                 </tbody>
             </table>
+
+            {/* Modal Overlay */}
+            {openIndex !== null && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60">
+                    <div className="bg-gray-800 rounded-lg shadow-2xl p-8 max-w-lg w-full relative">
+                        <button
+                            className="absolute top-2 right-2 text-gray-300 hover:text-white text-xl"
+                            onClick={() => setOpenIndex(null)}
+                            aria-label="Close"
+                        >
+                            &times;
+                        </button>
+                        <h3 className="text-2xl font-bold mb-4">{clients[openIndex].name}</h3>
+                        <div className="mb-2">
+                            <span className="font-semibold">Last Check-In:</span> {clients[openIndex].lastCheckIn}
+                        </div>
+                        <div className="mb-2">
+                            <span className="font-semibold">Status:</span>{" "}
+                            <span className={getStatusColor(clients[openIndex].status)}>
+                                {clients[openIndex].status}
+                            </span>
+                        </div>
+                        <div className="mb-2">
+                            <span className="font-semibold">AI Summary:</span>
+                            <div className="mt-1">{clients[openIndex].aiSummary}</div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
