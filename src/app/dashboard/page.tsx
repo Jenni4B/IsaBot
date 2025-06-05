@@ -2,13 +2,17 @@ import React from 'react';
 import NavBar from '../components/navbar';
 import ClientTable from '../components/dashboard/clientTable';
 import RecentActivity from '../components/dashboard/recentActivity';
+// import { ClientProvider } from '../context/clientTableContext';
 
 const Dashboard: React.FC = () => {
     return (
         <div className="flex flex-col min-h-screen">
         <NavBar />
             <main className="flex-grow p-4">
+            <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+            {/* <ClientProvider> */}
                 <ClientTable />
+            {/* </ClientProvider> */}
             </main>
             <main className="flex-grow p-4">
                 <RecentActivity />
