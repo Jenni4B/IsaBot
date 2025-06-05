@@ -148,17 +148,19 @@ const ClientTable: React.FC = () => {
             <div className="mb-3">
               <strong>AI Summary:</strong>
                 <button
-                  // onClick={() => fetchSummary(clients[openIndex].checkIns || [])}
-                    onClick={async () => {
-                      const test = [
-                        "Recorded but didn’t edit.",
-                        "Still need to script next week’s ep.",
-                        "Feeling tired but pushing through."
-                      ];
-                      const summary = await fetchSummary(test);
-                      alert(summary);
-                      console.log(summary);
-                    }}
+                  onClick={async () => {
+                    const updated = [...clients];
+                    const checkIns = updated[openIndex].checkIns ?? [];
+
+                    if (!checkIns.length) {
+                      console.warn("No check-ins available for this client.");
+                      return;
+                    }
+
+                    const aiSummary = await fetchSummary(checkIns);
+                    updated[openIndex].aiSummary = aiSummary;
+                    setClients(updated);
+                  }}
                   className="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded"
                 >
                   Generate Summary

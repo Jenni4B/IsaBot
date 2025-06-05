@@ -8,5 +8,6 @@ export const fetchSummary = async (checkins) => {
   });
 
   const data = await res.json();
+  console.log('[Playlab Response]', JSON.stringify(data, null, 2));
   return data.summary || 'No summary returned.';
 };
