@@ -7,6 +7,7 @@ export async function POST(req: NextRequest) {
 
     if (!Array.isArray(checkins) || checkins.length === 0) {
       return NextResponse.json(
+        // Missing or invalid check-in data checks
         { error: 'Missing or invalid check-in data' },
         { status: 400 }
       );
@@ -17,6 +18,8 @@ export async function POST(req: NextRequest) {
       ? checkins
       : ['No check-ins provided.'];
 
+    // Ensure check-ins are strings and join them into a single message
+    // This is supposed to prevent any issues with empty or malformed check-ins
     const messageBody = {
       input: {
         message: safeCheckins.join('\n'),
@@ -75,7 +78,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ summary });
 
   } catch (error) {
-    // Catch all errors and log them
+    // Catch any errors and log them
     console.error('[Playlab Summary Error]', error);
     return NextResponse.json(
       { error: 'Failed to fetch summary from Playlab' },
