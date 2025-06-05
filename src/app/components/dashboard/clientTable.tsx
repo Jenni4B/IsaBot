@@ -79,8 +79,6 @@ const ClientTable: React.FC = () => {
     setOpenIndex(index);
   };
 
-  fetchSummary()
-
   return (
     <div className="bg-gray-800 text-white p-6 rounded-lg shadow-md max-w-5xl mx-auto">
       <h2 className="text-2xl font-bold mb-4">Client List</h2>
