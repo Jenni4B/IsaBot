@@ -59,6 +59,8 @@ const ClientTable: React.FC = () => {
   const [clients, setClients] = useState<Client[]>(clientsData);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [note, setNote] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleStatusChange = (index: number, newStatus: ClientStatus) => {
     const updated = [...clients];
@@ -159,32 +161,35 @@ const ClientTable: React.FC = () => {
             <div className="mb-3">
               <strong>AI Summary:</strong>
 
-                <button
-                  onClick={async () => {
-                    const updated = [...clients];
-                    const checkIns = updated[openIndex].checkIns ?? [];
+              <button
+                onClick={async () => {
+                  const updated = [...clients];
+                  const checkIns = updated[openIndex].checkIns ?? [];
 
-                    if (!checkIns.length) {
-                      console.warn("No check-ins available for this client.");
-                      return;
-                    }
+                  if (!checkIns.length) {
+                    console.warn("No check-ins available for this client.");
+                    return;
+                  }
 
-                    try {
-                      // Fetch AI summary for the client's check-ins
-                      const aiSummary = await fetchSummary(checkIns);
-                      updated[openIndex].aiSummary = aiSummary;
-                      setClients(updated);
-                    } catch (error) {
-                      // Handle any errors that occur during the fetch and console log them
-                      console.error("Failed to fetch AI summary:", error);
-                      // alerts the user about the error
-                      alert("An error occurred while generating the summary. Please try again later.");
-                    }
-                  }}
-                  className="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded"
-                >
-                  Generate Summary
-                </button>
+                  try {
+                    setIsLoading(true); // 🔄 Start loading
+
+                    // Fetch AI summary for the client's check-ins
+                    const aiSummary = await fetchSummary(checkIns);
+                    updated[openIndex].aiSummary = aiSummary;
+                    setClients(updated);
+                  } catch (error) {
+                    console.error("Failed to fetch AI summary:", error);
+                    alert("An error occurred while generating the summary. Please try again later.");
+                  } finally {
+                    setIsLoading(false); // ✅ Done
+                  }
+                }}
+                className="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded disabled:opacity-60"
+                disabled={isLoading} // ⛔ Disable button while loading
+              >
+                {isLoading ? 'Generating...' : 'Generate Summary'}
+              </button>
 
             </div>
 
