@@ -2,88 +2,14 @@
 
 import React, { useState } from 'react';
 import { fetchSummary } from '@/app/hooks/fetchSummary';
-
-type ClientStatus = 'Active' | 'Due' | 'Overdue';
-
-interface Client {
-  name: string;
-  lastCheckIn: string;
-  status: ClientStatus;
-  aiSummary?: string;
-  note?: string;
-  checkIns?: string[];
-}
-
-
-const getStatusColor = (status: ClientStatus): string => {
-  switch (status) {
-    case 'Active':
-      return 'text-green-500';
-    case 'Due':
-      return 'text-yellow-500';
-    case 'Overdue':
-      return 'text-red-500';
-    default:
-      return 'text-gray-300';
-  }
-};
-
-const clientsData: Client[] = [
-  {
-    name: 'Emily Carter',
-    lastCheckIn: 'June 3',
-    status: 'Active',
-    checkIns: [
-      "I'm staying consistent this week — finished scripting early.",
-      "Feeling confident about my next recording!"
-    ]
-  },
-  {
-    name: 'Marcus Liu',
-    lastCheckIn: 'May 20',
-    status: 'Overdue',
-    checkIns: [
-      "I missed my session again — things are chaotic.",
-      "Still behind but trying to get back into it."
-    ]
-  }
-];
-
-const statusOptions: ClientStatus[] = ['Active', 'Due', 'Overdue'];
+import { ClientTableContext } from '@/app/context/clientTableContext';
 
 const ClientTable: React.FC = () => {
 
+  
   // State to manage clients and modal
   // my plan is to use a context provider for the client data
   // but for now, I'll keep it here and move it later when things start coming together
-  const [clients, setClients] = useState<Client[]>(clientsData);
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const [note, setNote] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(false);
-
-
-  const handleStatusChange = (index: number, newStatus: ClientStatus) => {
-    const updated = [...clients];
-    updated[index].status = newStatus;
-    setClients(updated);
-  };
-
-  const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNote(e.target.value);
-  };
-
-  const handleSaveNote = () => {
-    if (openIndex === null) return;
-    const updated = [...clients];
-    updated[openIndex].note = note;
-    setClients(updated);
-    setOpenIndex(null);
-  };
-
-  const handleOpenModal = (index: number) => {
-    setNote(clients[index].note || '');
-    setOpenIndex(index);
-  };
 
   return (
     // Main component rendering the client list and modal
