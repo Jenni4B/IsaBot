@@ -2,33 +2,25 @@
 
 import React from 'react';
 import NavBar from '../components/navbar';
+import { loggingIn } from '../auth/loggingIn';
 
 const loginpage = () => {
+    // This function handles the form submission for the login page.
+    // It prevents the default form submission behavior, retrieves the username and password,
+    // and calls the LoggingIn function with the provided credentials.
 
-    const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const form = event.currentTarget;
+        loggingIn(form);
+    };
 
-        // Get the username and password input elements from the form by name.
-        // Use optional chaining and nullish coalescing to safely extract and trim their values.
-        // This ensures both username and password are always strings, even if the inputs are missing.
-        const usernameInput = form.elements.namedItem('username') as HTMLInputElement | null;
-        const passwordInput = form.elements.namedItem('password') as HTMLInputElement | null;
-        const username = usernameInput?.value.trim() ?? '';
-        const password = passwordInput?.value.trim() ?? '';
-        if (!username || !password) {
-            return;
-        }
-        console.log("Login form submitted");
-        window.location.href = "/dashboard"; // Redirect to dashboard after login
-    }
-    
     return(
         <div className="flex flex-col min-h-screen">
             <NavBar />
             <div className="flex flex-1 items-center justify-center">
                 <form 
-                    onSubmit={handleLogin}
+                    onSubmit={handleSubmit}
                     className="p-12 rounded shadow-md w-full max-w-lg space-y-8"
                 >
                     <div>

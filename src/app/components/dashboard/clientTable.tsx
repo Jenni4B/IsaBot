@@ -10,7 +10,7 @@ const ClientTable: React.FC = () => {
     openIndex,
     setOpenIndex,
     fetchClientSummary,
-    note,
+    // note,
     setNote,
   } = useClientTable();
 
@@ -22,17 +22,17 @@ const ClientTable: React.FC = () => {
     setClients(updated);
   };
 
-  const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNote(e.target.value);
-  };
+  // const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  //   setNote(e.target.value);
+  // };
 
-  const handleSaveNote = () => {
-    if (openIndex === null) return;
-    const updated = [...clients];
-    updated[openIndex].note = note;
-    setClients(updated);
-    setOpenIndex(null);
-  };
+  // const handleSaveNote = () => {
+  //   if (openIndex === null) return;
+  //   const updated = [...clients];
+  //   updated[openIndex].note = note;
+  //   setClients(updated);
+  //   setOpenIndex(null);
+  // };
 
   const handleOpenModal = (index: number) => {
     setNote(clients[index].note || '');
@@ -135,7 +135,7 @@ const ClientTable: React.FC = () => {
               </button>
             </div>
 
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label htmlFor="note" className="block text-sm font-medium mb-1">
                 Your Notes:
               </label>
@@ -146,14 +146,14 @@ const ClientTable: React.FC = () => {
                 className="w-full bg-gray-800 text-white p-2 rounded border border-gray-600"
                 rows={4}
               />
-            </div>
+            </div> */}
 
-            <button
+            {/* <button
               onClick={handleSaveNote}
               className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
             >
               Save Note
-            </button>
+            </button> */}
           </div>
         </div>
       )}
