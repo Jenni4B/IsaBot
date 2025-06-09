@@ -1,4 +1,5 @@
 // import Dashboard from "./dashboard/page";
+
 'use client';
 
 import LandingPage from "./landingpage/page";
@@ -9,9 +10,9 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* AuthProvider wraps the entire application to provide authentication context */}
-      <AuthProvider>
+      {/* <AuthProvider> */}
         <NavBar />
-      </AuthProvider>
+      {/* </AuthProvider> */}
       <LandingPage />
       <footer className="text-center">
         <p className="text-sm text-gray-500">© Isa Media Inc</p>

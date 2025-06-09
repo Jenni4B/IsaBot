@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { useAuth } from "../context/AuthContext";
+import { useAuth, AuthProvider } from "../context/AuthContext";
 
 const NavBar: React.FC = () => {
     const { isLoggedIn, logout } = useAuth();
@@ -38,4 +38,10 @@ const NavBar: React.FC = () => {
     );
 };
 
-export default NavBar;
+export default function NavBarWithProvider() {
+    return (
+        <AuthProvider>
+            <NavBar />
+        </AuthProvider>
+    );
+}
