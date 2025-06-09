@@ -4,10 +4,12 @@ import React, { createContext, useContext, useState } from 'react';
 import { fetchSummary } from '../hooks/fetchSummary';
 
 // ---- Status options and helpers ----
-export const statusOptions = ['Active', 'Due', 'Overdue'];
+export const statusOptions = ['Active', 'Due', 'Overdue', 'Onboarding'];
 
 export const getStatusColor = (status) => {
   switch (status) {
+    case 'Onboarding':
+      return 'text-blue-500';
     case 'Active':
       return 'text-green-500';
     case 'Due':
