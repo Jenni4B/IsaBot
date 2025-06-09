@@ -103,6 +103,22 @@ const ClientTable: React.FC = () => {
                 {clients[openIndex].status}
               </span>
             </p>
+            <p className="mb-4">
+              <strong>Note:</strong> {clients[openIndex].note || 'No notes available.'}
+            </p>
+            <div className="mb-4">
+              <strong>Check-Ins:</strong>
+              {clients[openIndex].checkIns && clients[openIndex].checkIns.length > 0 ? (
+                <ul className="list-disc list-inside mt-2 space-y-1 text-sm">
+                  {clients[openIndex].checkIns.map((checkIn: string, idx: number) => (
+                    <li key={idx}>{checkIn}</li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mt-2 text-gray-400">No check-ins available.</p>
+              )}
+            </div>
+
 
             <div className="mb-3">
               <strong>AI Summary:</strong>
