@@ -1,5 +1,4 @@
 // function to handle login logic
-import { useState } from "react";
 
 export function loggingIn(form) {
     console.log("Logging in...");
