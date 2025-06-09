@@ -2,34 +2,26 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    // Step 1: Parse and validate input
     const { checkins } = await req.json();
 
     if (!Array.isArray(checkins) || checkins.length === 0) {
       return NextResponse.json(
-        // Missing or invalid check-in data checks
         { error: 'Missing or invalid check-in data' },
         { status: 400 }
       );
     }
 
-    // Step 2: Prepare message body for Playlab
-    const safeCheckins = Array.isArray(checkins) && checkins.length > 0
-      ? checkins
-      : ['No check-ins provided.'];
-
-    // Ensure check-ins are strings and join them into a single message
-    // This is supposed to prevent any issues with empty or malformed check-ins
+    // ✅ Ensure check-ins are strings and joined into one message
     const messageBody = {
       input: {
-        message: safeCheckins.join('\n'),
+        message: checkins.filter(Boolean).join('\n'),
       },
     };
 
-    console.log('[Sending message to Playlab]', messageBody);
+    console.log('[Playlab] Sending message:', messageBody);
 
-    // Step 3: Create a new conversation
-    const conversationResponse = await fetch(
+    // 🔄 Create new conversation
+    const conversationRes = await fetch(
       `${process.env.PLAYLAB_API_BASE}/projects/${process.env.PLAYLAB_PROJECT_ID}/conversations`,
       {
         method: 'POST',
@@ -44,19 +36,19 @@ export async function POST(req: NextRequest) {
       }
     );
 
-    const convoData = await conversationResponse.json();
+    const convoData = await conversationRes.json();
     const conversationId = convoData?.conversation?.id;
 
     if (!conversationId) {
       console.error('[Playlab] Failed to create conversation:', convoData);
       return NextResponse.json(
-        { error: 'Failed to create conversation', details: convoData },
+        { error: 'Conversation creation failed', details: convoData },
         { status: 500 }
       );
     }
 
-    // Step 4: Send the message to the conversation
-    const messageResponse = await fetch(
+    // 🧠 Send message to conversation
+    const messageRes = await fetch(
       `${process.env.PLAYLAB_API_BASE}/projects/${process.env.PLAYLAB_PROJECT_ID}/conversations/${conversationId}/messages`,
       {
         method: 'POST',
@@ -68,17 +60,15 @@ export async function POST(req: NextRequest) {
       }
     );
 
-    const messageData = await messageResponse.json();
-    console.log('[Playlab] Response:', JSON.stringify(messageData, null, 2));
+    const messageData = await messageRes.json();
+    console.log('[Playlab] Summary Response:', messageData);
 
+    // ✅ Extract useful content or return raw fallback
     const summary =
       messageData.completion || messageData.text || JSON.stringify(messageData);
 
-    // Step 5: Return summary
     return NextResponse.json({ summary });
-
   } catch (error) {
-    // Catch any errors and log them
     console.error('[Playlab Summary Error]', error);
     return NextResponse.json(
       { error: 'Failed to fetch summary from Playlab' },
