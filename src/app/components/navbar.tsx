@@ -6,12 +6,15 @@ const NavBar: React.FC = () => {
     const { isLoggedIn, logout } = useAuth();
 
     const navItems = [
-        { name: "Home", href: "/" },
         ...(isLoggedIn
-            ? [{ name: "Logout", href: "#", onClick: logout }]
-            : [{ name: "Login", href: "/loginPage" }]
-        ),
-        { name: "Settings", href: "/settings" }
+            ? [
+                { name: "Dashboard", href: "/dashboard" },
+                { name: "Logout", href: "/", onClick: logout },
+                { name: "Settings", href: "/settings" }
+            ]
+            : [ { name: "Home", href: "/" },
+                { name: "Login", href: "/loginPage" }]
+        )
     ];
 
     return (
