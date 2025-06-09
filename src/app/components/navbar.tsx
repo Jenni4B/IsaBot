@@ -4,7 +4,7 @@ const navItems = [
     { name: "Home", href: "/" },
     // { name: "Dashboard", href: "/dashboard" },
     { name: "Login", href: "/loginPage" },
-    // { name: "Settings", href: "/settings" }, Not implemented yet
+    { name: "Settings", href: "/settings" }
     ];
 
 // {name: "Logout", href: "/" }, will be implemented later
