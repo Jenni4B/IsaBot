@@ -2,7 +2,6 @@
 
 import React from 'react';
 import IdeaBox from '../components/dashboard/IdeaBox';
-import RecentActivity from '../components/dashboard/recentActivity';
 
 const Dashboard: React.FC = () => {
     return (
@@ -13,10 +12,6 @@ const Dashboard: React.FC = () => {
                 </div>
             </main>
             
-                <main className="flex-grow p-4">
-                    <RecentActivity />
-                </main>
-
                 <footer className="text-center p-4">
                     <p className="text-sm text-gray-500">© Isa Media Inc</p>
                 </footer>
