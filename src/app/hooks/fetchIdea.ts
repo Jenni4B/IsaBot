@@ -8,5 +8,6 @@ export const fetchIdea = async (input: string): Promise<string> => {
   });
 
   const data = await res.json();
+  console.log('AI response:', data);
   return data.idea || 'No idea returned.';
 };

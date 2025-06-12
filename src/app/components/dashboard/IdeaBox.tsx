@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { fetchIdea } from '@/app/hooks/fetchIdea';
 
-const IdeaGenerator: React.FC = () => {
+const IdeaBox: React.FC = () => {
   const [input, setInput] = useState('');
   const [idea, setIdea] = useState('');
   const [loading, setLoading] = useState(false);
@@ -48,4 +48,4 @@ const IdeaGenerator: React.FC = () => {
   );
 };
 
-export default IdeaGenerator;
+export default IdeaBox;
