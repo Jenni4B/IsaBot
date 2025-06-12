@@ -2,7 +2,7 @@ import { google } from 'googleapis';
 
 const auth = new google.auth.GoogleAuth({
     // points to my credentials file
-    keyFile: 'credentials.json',
+    keyFile: './config/credentials.json',
 
     // scopes for read-only access to Google Drive
     scopes: ['https://www.googleapis.com/auth/drive.readonly'],
@@ -16,8 +16,8 @@ export async function listFilesInFolder(folderId: string) {
     // Use the folderId to filter files in that folder
     // I might not need this though because in the folder
     // it's only text files but this is just in case
-    
-    q: `'${folderId}' in parents and mimeType = 'text/plain'`,
+
+    q: `'${folderId}' in parents and mimeType = 'application/pdf'`,
     fields: 'files(id, name)',
   });
 
