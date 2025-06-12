@@ -1,15 +1,22 @@
+'use client';
 import Link from "next/link";
-
-const navItems = [
-    { name: "Home", href: "/" },
-    // { name: "Dashboard", href: "/dashboard" },
-    { name: "Login", href: "/loginPage" },
-    { name: "Settings", href: "/settings" }
-    ];
-
-// {name: "Logout", href: "/" }, will be implemented later
+import { useAuth, AuthProvider } from "../context/AuthContext";
 
 const NavBar: React.FC = () => {
+    const { isLoggedIn, logout } = useAuth();
+
+    const navItems = [
+        ...(isLoggedIn
+            ? [
+                { name: "Dashboard", href: "/dashboard" },
+                { name: "Logout", href: "/", onClick: logout },
+                { name: "Settings", href: "/settings" }
+            ]
+            : [ { name: "Home", href: "/" },
+                { name: "Login", href: "/loginPage" }]
+        )
+    ];
+
     return (
         <nav className="text-white p-6 shadow-lg text-xl">
             <div className="container mx-auto flex justify-between items-center">
@@ -17,15 +24,27 @@ const NavBar: React.FC = () => {
                 <ul className="flex space-x-8">
                     {navItems.map((item) => (
                         <li key={item.name}>
-                            <Link href={item.href} className="hover:text-gray-400">
-                                {item.name}
-                            </Link>
+                            {item.onClick ? (
+                                <a href="#" onClick={item.onClick} className="hover:text-gray-400">
+                                    {item.name}
+                                </a>
+                            ) : (
+                                <Link href={item.href} className="hover:text-gray-400">
+                                    {item.name}
+                                </Link>
+                            )}
                         </li>
                     ))}
                 </ul>
             </div>
         </nav>
     );
-}
+};
 
-export default NavBar;
+export default function NavBarWithProvider() {
+    return (
+        <AuthProvider>
+            <NavBar />
+        </AuthProvider>
+    );
+}

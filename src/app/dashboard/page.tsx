@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import NavBar from '../components/navbar';
 import ClientTable from '../components/dashboard/clientTable';
@@ -12,7 +14,6 @@ const Dashboard: React.FC = () => {
 
         <main className="flex-grow p-4">
             <div className="max-w-3xl mx-auto mt-12 p-6 bg-gray-900 text-white rounded shadow-lg">
-
                 <ClientTable />
             </div>
         </main>
@@ -21,9 +22,9 @@ const Dashboard: React.FC = () => {
                 <RecentActivity />
             </main>
 
-        <footer className="text-center p-4">
-            <p className="text-sm text-gray-500">© Isa Media Inc</p>
-        </footer>
+            <footer className="text-center p-4">
+                <p className="text-sm text-gray-500">© Isa Media Inc</p>
+            </footer>
         </div>
     );
 
