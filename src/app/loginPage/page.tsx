@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import NavBar from '../components/navbar';
 import { loggingIn } from '../auth/loggingIn';
 import { useAuth, AuthProvider } from '../context/AuthContext';
 
@@ -19,7 +18,6 @@ const LoginPage = () => {
 
     return (
         <div className="flex flex-col min-h-screen">
-            <NavBar />
             <div className="flex flex-1 items-center justify-center">
                 <form
                     onSubmit={handleSubmit}
