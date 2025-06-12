@@ -1,7 +1,6 @@
 import React from 'react';
 import NavBar from '../components/navbar';
 import ClientTable from '../components/dashboard/clientTable';
-import { ClientTableProvider } from '@/app/context/clientTableContext';
 
 import RecentActivity from '../components/dashboard/recentActivity';
 // import { ClientProvider } from '../context/clientTableContext';
@@ -12,9 +11,10 @@ const Dashboard: React.FC = () => {
         <NavBar />
 
         <main className="flex-grow p-4">
-            <ClientTableProvider>
+            <div className="max-w-3xl mx-auto mt-12 p-6 bg-gray-900 text-white rounded shadow-lg">
+
                 <ClientTable />
-            </ClientTableProvider>
+            </div>
         </main>
         
             <main className="flex-grow p-4">
