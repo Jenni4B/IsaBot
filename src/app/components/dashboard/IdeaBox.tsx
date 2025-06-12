@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { fetchIdea } from '@/app/hooks/fetchIdea';
+import Messages from './chatDetails/messages';
 
 const IdeaBox: React.FC = () => {
   const [input, setInput] = useState('');
@@ -24,35 +25,38 @@ const IdeaBox: React.FC = () => {
 
   return (
     <div className="max-w-3xl mx-auto mt-12 p-6 bg-gray-900 text-white rounded shadow-lg">
-      <h1 className="text-3xl font-bold mb-6 text-center">Idea Generator</h1>
-
-      <label htmlFor="input" className="block text-sm mb-1">What do you need help brainstorming?</label>
-      <textarea
-        id="input"
-        value={input}
-        onChange={(e) => {
-          setInput(e.target.value)
-          if (error) setError(null);
-        }}
-        rows={4}
-        className="w-full p-3 text-white rounded mb-4"
-        placeholder="e.g., podcast topic about burnout, newsletter idea, episode intro"
-      />
-
-      {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-
+      <h1 className="text-2xl font-bold mb-4">Generate an Idea</h1>
+      <div className="mb-4">
+        <textarea
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          placeholder="Enter your idea prompt here..."
+          className="w-full p-2 bg-gray-800 text-white rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          rows={4}
+        />
+      </div>
       <button
         onClick={handleGenerate}
-        disabled={loading}
-        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded disabled:opacity-50"
+        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
       >
-        {loading ? 'Generating...' : 'Generate Idea'}
+        Generate Idea
       </button>
-
+      {error && <p className="text-red-500 mt-2">{error}</p>}
+      {loading && <p className="text-gray-400 mt-2">Generating...</p>}
       {idea && (
         <div className="mt-6 p-4 bg-gray-800 rounded">
-          <h2 className="font-semibold mb-2">Suggested Idea:</h2>
-          <p className="text-sm text-gray-300">{idea}</p>
+          <h2 className="text-xl font-semibold mb-2">Generated Idea:</h2>
+          <Messages
+            messages={[
+              {
+                id: '1',
+                content: idea,
+                sender: 'bot',
+                timestamp: new Date().toISOString(),
+              },
+            ]}
+            loading={loading}
+          />
         </div>
       )}
     </div>
