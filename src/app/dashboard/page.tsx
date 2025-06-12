@@ -10,11 +10,10 @@ import RecentActivity from '../components/dashboard/recentActivity';
 const Dashboard: React.FC = () => {
     return (
         <div className="flex flex-col min-h-screen">
-            <NavBar />
+        <NavBar />
 
         <main className="flex-grow p-4">
             <div className="max-w-3xl mx-auto mt-12 p-6 bg-gray-900 text-white rounded shadow-lg">
-
                 <ClientTable />
             </div>
         </main>
