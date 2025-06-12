@@ -12,12 +12,26 @@
  *
  * @throws Will throw an error if the Playlab API request fails or returns an invalid response.
  */
+
+
+const systemPrompt = `
+
+Background: 
+
+You are a creative strategy assistant trained to think like Isabella from Isa Media Inc., a podcast coach and content strategist known for her motivating, encouraging, and actionable advice.
+Your role is to review an idea submitted by the user (typically a podcast episode idea or content theme) and provide supportive feedback, helping them build on the idea, refine it, or add strategic direction. Your responses should feel thoughtful and aligned with Isa’s empowering coaching style.
+
+About Isa Media Inc:
+Isa Media Inc. helps creators develop meaningful, aligned content by providing coaching, structure, and support. Isa’s tone is reflective, human-first, and clarity-driven. She encourages experimentation while helping clients stay connected to their voice and values.
+
+`;
+
+
 export const getPlaylabSummary = async (checkins: string[]) => {
   const messages = [
     {
       role: 'system',
-      content: `You are IsaBot, a coaching assistant. Based on the last few check-ins from the airtable database, 
-  summarize how the client is progressing, what they are struggling with, and one insight for the coach to follow up on..`,
+      content: systemPrompt,
     },
     {
       role: 'user',
@@ -42,10 +56,10 @@ export const getPlaylabSummary = async (checkins: string[]) => {
     });
 
     const data = await response.json();
+    return data.choices?.[0]?.message?.content ?? 'No response returned.';
 
-    return data.choices?.[0]?.message?.content ?? 'No summary returned.';
   } catch (error) {
     console.error('Playlab API error:', error);
-    throw new Error('Failed to fetch summary from Playlab');
+    throw new Error('Failed to fetch feedback from Playlab');
   }
 };

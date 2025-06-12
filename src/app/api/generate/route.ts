@@ -7,11 +7,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid input' }, { status: 400 });
   }
 
-  const messageBody = {
+  const messageBody = 
+  {
     input: {
       message: input,
     },
   };
+
+  
+  console.log('Generating idea for input:', input);
+  console.log('Message body:', messageBody);
 
   const conversationRes = await fetch(
     `${process.env.PLAYLAB_API_BASE}/projects/${process.env.PLAYLAB_PROJECT_ID}/conversations`,
@@ -48,6 +53,9 @@ export async function POST(req: NextRequest) {
   );
 
   const messageData = await messageRes.json();
+  // console.log('AI message response:', messageData);
+  console.log('AI message response:', JSON.stringify(messageData, null, 2));
+
   const summary =
     messageData.completion || messageData.text || 'No response from AI.';
 

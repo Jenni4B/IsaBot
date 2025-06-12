@@ -24,7 +24,7 @@ const IdeaBox: React.FC = () => {
 
   return (
     <div className="max-w-3xl mx-auto mt-12 p-6 bg-gray-900 text-white rounded shadow-lg">
-      <h1 className="text-3xl font-bold mb-6 text-center">💡 Idea Generator</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">Idea Generator</h1>
 
       <label htmlFor="input" className="block text-sm mb-1">What do you need help brainstorming?</label>
       <textarea
