@@ -7,9 +7,15 @@ const IdeaBox: React.FC = () => {
   const [input, setInput] = useState('');
   const [idea, setIdea] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleGenerate = async () => {
-    if (!input.trim()) return;
+    if (!input.trim()) {
+      setError('Please enter something before generating an idea.');
+      return;
+    }
+    setError(null);
+    // Reset previous idea and set loading state
     setLoading(true);
     const generated = await fetchIdea(input);
     setIdea(generated);
@@ -24,11 +30,16 @@ const IdeaBox: React.FC = () => {
       <textarea
         id="input"
         value={input}
-        onChange={(e) => setInput(e.target.value)}
+        onChange={(e) => {
+          setInput(e.target.value)
+          if (error) setError(null);
+        }}
         rows={4}
         className="w-full p-3 text-white rounded mb-4"
         placeholder="e.g., podcast topic about burnout, newsletter idea, episode intro"
       />
+
+      {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
       <button
         onClick={handleGenerate}

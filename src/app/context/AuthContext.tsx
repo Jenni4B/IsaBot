@@ -12,6 +12,7 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+  
   // State to track whether the user is logged in.
   // Initializes from localStorage (client-side only).
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
