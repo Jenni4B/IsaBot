@@ -11,7 +11,7 @@ const Dashboard: React.FC = () => {
 
             <main className="flex-grow p-4">
 
-                <div className="max-w-5xl mx-auto mt-12 p-6 bg-transparent rounded shadow-none">
+                <div className="mx-auto mt-12 p-6 bg-transparent rounded shadow-none">
 
                     <div className="flex flex-row gap-8">
 
