@@ -7,9 +7,10 @@ const LandingPage = () => {
                 <h1 className="text-4xl font-bold mb-4">Welcome to IsaBot</h1>
                 <p className="text-lg mb-6">
                     {/* Will change this to a more descriptive text later. I made it like this for funsies*/}
-                    Prepare for progress! And make it double!
-                    To protect your time from administration,
-                    To unite all check-ins in one location!
+                    IsaBot is your AI-powered assistant for generating and refining ideas.
+                    <br />
+                    Whether you&apos;re brainstorming new concepts or seeking feedback on existing ones, IsaBot is here to help.
+                    <br />
                 </p>
                 <button
                     className="text-white py-2 px-4 rounded hover:opacity-90 font-sans"
@@ -18,7 +19,7 @@ const LandingPage = () => {
                         window.location.href = "/loginPage";
                     }}
                 >
-                    View Clients
+                    Get Started
                 </button>
             </div>
         </div>
