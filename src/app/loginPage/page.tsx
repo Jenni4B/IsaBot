@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { loggingIn } from '../auth/loggingIn';
+import PublicRoute from '../auth/PublicRoute';
 import { useAuth, AuthProvider } from '../context/AuthContext';
 
 // Login page component: handles form submission, prevents default behavior,
@@ -63,7 +64,9 @@ const LoginPage = () => {
 export default function LoginPageWithProvider() {
     return (
         <AuthProvider>
-            <LoginPage />
+            <PublicRoute>
+                <LoginPage />
+            </PublicRoute>
         </AuthProvider>
     );
 }
