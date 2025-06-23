@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { loggingIn } from '../auth/loggingIn';
-import PublicRoute from '../auth/PublicRoute';
+import { loggingIn } from '../api/auth/login/route';
+import PublicRoute from '../api/auth/PublicRoute';
 import { useAuth, AuthProvider } from '../context/AuthContext';
 
 // Login page component: handles form submission, prevents default behavior,

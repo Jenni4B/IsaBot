@@ -35,7 +35,7 @@ yarn-error.log*
 
 # Secrets
 /config/credentials.json
-
+/src/app/lab/users.ts
 
 
 # vercel
