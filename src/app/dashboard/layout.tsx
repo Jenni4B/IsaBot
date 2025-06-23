@@ -1,4 +1,4 @@
-import ProtectedRoute from "../api/auth/ProtectedRoute";
+import ProtectedRoute from "../auth/ProtectedRoute";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (

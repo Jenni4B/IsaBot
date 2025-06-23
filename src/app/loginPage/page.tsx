@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import { loggingIn } from '../api/auth/login/route';
-import PublicRoute from '../api/auth/PublicRoute';
+
+import { loggingIn } from '../auth/login/loggingIn';
+import PublicRoute from '../auth/PublicRoute';
 import { useAuth, AuthProvider } from '../context/AuthContext';
 
 // Login page component: handles form submission, prevents default behavior,
@@ -10,11 +11,18 @@ import { useAuth, AuthProvider } from '../context/AuthContext';
 const LoginPage = () => {
     const { login } = useAuth();
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const form = event.currentTarget;
-        loggingIn(form);
-        login(); // Call the login function from AuthContext
+        const result = await loggingIn(form);
+        if (result && !result.error) {
+            // If loggingIn was successful, proceed with login
+            login();
+        }
+        else {
+            // Handle error (e.g., show a message to the user)
+            console.error('Login failed:', result?.error || 'Unknown error');
+        }
     };
 
     return (
