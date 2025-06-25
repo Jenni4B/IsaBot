@@ -16,7 +16,7 @@ const LoginPage = () => {
         event.preventDefault();
         setError(null);
         const result = await loggingIn(event.currentTarget);
-        if (result && typeof result.token === 'string' && result.token) {
+        if (result && 'token' in result && typeof result.token === 'string' && result.token) {
             login(result.token); // Store JWT in context and localStorage
             // Redirect or update UI
         } else if (result && 'error' in result && result.error) {
