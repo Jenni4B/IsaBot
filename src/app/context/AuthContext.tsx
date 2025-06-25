@@ -3,38 +3,38 @@
 import React, { createContext, useContext, useState, useMemo, useEffect } from "react";
 
 // Define the shape of the authentication context.
-// Includes login status and functions to log in or out.
 type AuthContextType = {
   isLoggedIn: boolean;
-  login: () => void;
+  token: string | null;
+  login: (token: string) => void;
   logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  
-  // State to track whether the user is logged in.
-  // Initializes from localStorage (client-side only).
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
+  const [token, setToken] = useState<string | null>(() => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("isLoggedIn") === "true";
+      return localStorage.getItem("token");
     }
-    return false;
+    return null;
   });
 
-  // Persist login state to localStorage whenever it changes.
+  // Update localStorage whenever token changes
   useEffect(() => {
-    localStorage.setItem("isLoggedIn", String(isLoggedIn));
-  }, [isLoggedIn]);
+    if (token) {
+      localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
+    }
+  }, [token]);
 
-  // mark user as logged in.
-  const login = () => setIsLoggedIn(true);
+  const login = (newToken: string) => setToken(newToken);
+  const logout = () => setToken(null);
 
-  //mark user as logged out.
-  const logout = () => setIsLoggedIn(false);
+  const isLoggedIn = !!token;
 
-  // Memoize the context value to avoid unnecessary re-renders.
-  const value = useMemo(() => ({ isLoggedIn, login, logout }), [isLoggedIn]);
+  const value = useMemo(() => ({ isLoggedIn, token, login, logout }), [isLoggedIn, token]);
 
   return (
     <AuthContext.Provider value={value}>
@@ -44,7 +44,6 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
 };
 
 // Custom hook to access the authentication context.
-// Throws an error if used outside the AuthProvider.
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) throw new Error("useAuth must be used within an AuthProvider");

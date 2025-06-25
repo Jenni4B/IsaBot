@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
     password.length > 64 ||
     !/^[a-zA-Z0-9_]+$/.test(username)
   ) {
+    console.error('Invalid login attempt:');
     return NextResponse.json({ error: 'Invalid username or password format.' }, { status: 400 });
   }
 

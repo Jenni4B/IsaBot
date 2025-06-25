@@ -10,18 +10,19 @@ import { useAuth, AuthProvider } from '../context/AuthContext';
 // retrieves username and password, and calls the loggingIn function.
 const LoginPage = () => {
     const { login } = useAuth();
+    const [error, setError] = React.useState<string | null>(null);
 
-    const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const form = event.currentTarget;
-        const result = await loggingIn(form);
-        if (result && !result.error) {
-            // If loggingIn was successful, proceed with login
-            login();
-        }
-        else {
-            // Handle error (e.g., show a message to the user)
-            console.error('Login failed:', result?.error || 'Unknown error');
+        setError(null);
+        const result = await loggingIn(event.currentTarget);
+        if (result && typeof result.token === 'string' && result.token) {
+            login(result.token); // Store JWT in context and localStorage
+            // Redirect or update UI
+        } else if (result && 'error' in result && result.error) {
+            setError(result.error);
+        } else {
+            setError('Login failed. Please try again.');
         }
     };
 
@@ -63,6 +64,9 @@ const LoginPage = () => {
                     >
                         Login
                     </button>
+                    {error && (
+                        <div className="mt-4 text-red-500 text-center">{error}</div>
+                    )}      
                 </form>
             </div>
         </div>
