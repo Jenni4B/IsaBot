@@ -9,6 +9,7 @@ import { useAuth, AuthProvider } from '../context/AuthContext';
 // Login page component: handles form submission, prevents default behavior,
 // retrieves username and password, and calls the loggingIn function.
 const LoginPage = () => {
+    
     const { login } = useAuth();
     const [error, setError] = React.useState<string | null>(null);
 
