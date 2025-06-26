@@ -5,6 +5,7 @@ import React from 'react';
 import { loggingIn } from '../auth/login/loggingIn';
 import PublicRoute from '../auth/PublicRoute';
 import { useAuth, AuthProvider } from '../context/AuthContext';
+import { useLoginWTimeout } from '../hooks/useLoginWTimeout';
 
 // Login page component: handles form submission, prevents default behavior,
 // retrieves username and password, and calls the loggingIn function.
@@ -12,11 +13,13 @@ const LoginPage = () => {
     
     const { login } = useAuth();
     const [error, setError] = React.useState<string | null>(null);
+    const { loginWTimeout } = useLoginWTimeout(); // 10 seconds timeout
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setError(null);
-        const result = await loggingIn(event.currentTarget);
+        
+        const result = await loginWTimeout(event.currentTarget, loggingIn);
         if (result && 'token' in result && typeof result.token === 'string' && result.token) {
             login(result.token); // Store JWT in context and localStorage
             // Redirect or update UI
